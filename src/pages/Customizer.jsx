@@ -13,18 +13,42 @@ import {fadeAnimation, slideAnimation} from '../config/motion';
 import {AIpicker, Colorpicker, CustomButton, Filepicker, Tab } from '../components'
 
 const Customizer = () => {
-  const snap = useSnapshot(state)
+     const snap = useSnapshot(state);
+      const [file, setfile]   = useState('');
+      const [prompt, setpromt]   = useState('');
+     const [generatingImg, settingImg]   = useState(false);
+     const [activeEditorTag, setactiveEditorTag]   = useState("");
+     const [activeFilterTag, setactiveFilterTag]   = useState({
+        logoshirt: true,
+        stylishshirt: false,
+  });
+
+  const generateTabContent = ()=>{
+        switch(activeEditorTag) {
+          case "colorpicker":
+            return <Colorpicker />
+          case "filepicker":
+            return <Filepicker />
+          case "aipicker":
+            return <AIpicker />
+          default:
+            return null;
+  }
+ }
+
   return (
     <AnimatePresence>
       {!snap.intro && (
         <>
          <motion.div key="custom" className='absolute top-0 left-0 z-10' {...slideAnimation('left')}>
 
-              <div className='flex items-center min-h-screen'>
-                 <div className='editorstabs-container tabs'>
+              <div className='flex items-center min-h-screen '>
+                 <div className='editorstabs-container tabs '>
                   {EditorTabs.map((tab)=>(
-                    <Tab key={tab.name} tab={tab} handleClick={() => {}}/>
+                    <Tab key={tab.name} tab={tab}  handleClick={() => setactiveEditorTag(tab.name)}/>
                   ))}
+
+                  {generateTabContent()}
                  </div>
               </div>
          </motion.div>
