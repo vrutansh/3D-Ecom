@@ -15,7 +15,7 @@ import {AIpicker, Colorpicker, CustomButton, Filepicker, Tab } from '../componen
 const Customizer = () => {
      const snap = useSnapshot(state);
       const [file, setfile]   = useState('');
-      const [prompt, setpromt]   = useState('');
+      const [prompt, setPromt]   = useState('');
      const [generatingImg, settingImg]   = useState(false);
      const [activeEditorTab, setActiveEditorTab]   = useState("");
      const [activeFilterTab, setactiveFilterTab]   = useState({
@@ -30,12 +30,25 @@ const Customizer = () => {
           case "filepicker":
             return <Filepicker file={file} setfile={setfile} readfile={readfile}/>
           case "aipicker":
-            return <AIpicker />
+            return <AIpicker prompt={prompt} setPrompt={setPromt} generatingImg={generatingImg} handleSubmit={handleSubmit} />
           default:
             return null;
   }
  }
  
+ const handleSubmit = async(type)=>{
+   if(!prompt) return alert("Please enter a prompt");
+
+   try {
+        // call our backend to generate ai image.
+   } catch(error){
+      alert(error);
+   } finally {
+        settingImg(false);
+        setActiveEditorTab("")
+   }
+ }
+
  const handleDecals= (type, result) => {
         const decalType = DecalTypes[type];
         state[decalType.stateProperty] = result;
